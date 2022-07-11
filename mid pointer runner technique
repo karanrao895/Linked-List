@@ -1,0 +1,73 @@
+#include<iostream>
+using namespace std;
+
+class node{
+public:
+    int data;
+    node* next;
+
+    node(int d){
+        data=d;
+        next=NULL;
+    }
+};
+
+void takeinput(node* &head,node* &tail,int k){
+    while(k--){
+        int data;cin>>data;
+        node* n = new node(data);
+        if(head==NULL){
+            head=n;
+            tail=n;
+        }
+        else{
+            tail->next=n;
+            tail=n;
+        }
+    }
+}
+
+//mid pointer runner technique
+node* mid(node* head,node* tail){
+    if(head==NULL){
+        return NULL;
+    }
+
+    node* fast=head->next;
+    node* slow=head;
+    while (fast!=NULL && fast->next!=NULL)
+    {
+        slow = slow->next;
+        fast = fast->next->next;
+    }
+    return slow;
+    
+}
+
+
+void printll(node* head){
+    while(head!=NULL){
+        cout<<head->data<<" ";
+        head=head->next;
+    }
+}
+
+
+int main()
+{
+    node*head= NULL;
+    node*tail= NULL;
+
+    int k;cin>>k;
+    takeinput(head,tail,k);
+    
+
+    node* p = mid(head,tail);
+    if(p==NULL){
+        cout<<"Mid not found"<<endl;
+    }else{
+        cout<<"Mid is " <<p->data<<endl;
+    }
+
+    return 0;
+}
