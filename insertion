@@ -1,0 +1,114 @@
+#include<iostream>
+using namespace std;
+class node{
+public:
+    int data;
+    node* next;
+    //constructor
+    node(int d ){
+        data = d;
+        next = NULL;
+    }
+
+};
+int lengthofll(node* head){
+    int cnt=0;
+
+    while(head!=NULL){
+        cnt++;
+        head=head->next;
+    }
+    return cnt;
+}
+
+//insertion from front
+void insertatfront(node* &head, node* &tail,int data){
+    node *n = new node(data);
+    if(head==NULL){
+        head=n;
+        tail=n;
+    }
+    else{
+        n->next=head;
+        head=n;
+    }
+}
+
+//insertion from last
+void insertatlast(node* &head, node* &tail,int data){
+    node *n = new node(data);
+    if(head==NULL){
+        head=n;
+        tail=n;
+    }
+    else{
+        tail->next=n;
+        tail=n;
+    }
+}
+
+//insertion from any position
+
+void insertatanypos(node* &head,node* &tail,int data, int pos){
+    
+    if(pos==0){
+        insertatfront(head,tail,data);
+    }
+    else if(pos>=lengthofll(head)){
+        insertatlast(head,tail,data);
+    }
+    else {
+        node* temp =head;
+        node* n = new node(data);
+
+        for(int i=1;i<pos;i++){
+            temp=temp->next;
+        }
+        n->next=temp->next;
+        temp->next=n;
+    }
+}
+
+void print(node* head){
+    while(head!=NULL){
+        cout<<head->data<<" ";
+        head=head->next;
+    }
+}
+
+int main()
+{
+    // node n1(2);
+    // node n2(4);
+    // n1.next = &n2;
+    // cout<<n1.data<<" "<<n2.data<<endl;
+    // cout<<n1.data<<" "<<n1.next->data<<endl;
+
+    node* head=NULL;
+    node* tail=NULL;
+
+    insertatfront(head,tail,5);
+    insertatfront(head,tail,4);
+    insertatfront(head,tail,3);
+
+    insertatlast(head,tail,7);
+    insertatlast(head,tail,9);
+
+    // insertatanypos(head,tail,17,2);
+    // insertatanypos(head,tail,18,0);
+    insertatanypos(head,tail,18,4);
+
+    print(head);
+    cout<<endl;
+    cout<<lengthofll(head);
+
+
+
+
+
+
+
+
+
+    return 0;
+}
