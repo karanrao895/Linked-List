@@ -1,0 +1,111 @@
+#include<iostream>
+using namespace std;
+
+class node{
+public:
+    int data;
+    node* next;
+    //constructor
+    node(int d){
+        data=d;
+        next=NULL;
+    }
+};
+
+node* takeinput(int k,node* &head,node*&tail){
+    int s=k;
+    
+    while(s--){
+        int data;cin>>data;
+        node* n = new node(data);
+        if(head==NULL){
+            head=n;tail=n;
+        }else{
+            tail->next=n;
+            tail=n;
+        }
+    }
+    return head;
+}
+
+int lengthll(node* head){
+    int cnt=0;
+    while(head!=NULL){
+        cnt++;
+        head=head->next;
+    }
+    return cnt;
+}
+void deleteatfront(node* &head,node* &tail){
+    if(head==NULL) return;
+    else if(head->next==NULL){
+        delete head;
+        head=NULL;
+        tail=NULL;
+    }
+    else{
+        node* n=head;
+        head = head->next;
+        delete n;
+    }
+}
+
+void deleteatend(node* &head,node* &tail){
+    if(head==NULL) return;
+    else if(head->next==NULL){
+        delete head; head=NULL; tail=NULL;
+    }
+    else{
+        node* temp = head;
+        while(temp->next!=tail){
+            temp=temp->next;
+        }
+        delete tail;
+        tail=temp;
+        tail->next=NULL;
+    }
+}
+
+void deleteatanypos(node* &head,node* &tail, int pos){
+    if(pos==0){
+        deleteatfront(head,tail);
+    }
+    else if(pos>=lengthll(head)-1){
+        deleteatend(head,tail);
+    }
+    else{
+
+        node* temp=head;
+        for(int i=1;i<pos;i++){
+            temp=temp->next;
+        }
+        node* n = temp->next;
+        temp->next=n->next;
+        delete n;
+    }
+}
+
+void printll(node* head){
+    while(head!=NULL){
+        cout<<head->data<<" ";
+        head=head->next;
+    }
+}
+
+int main()
+{
+    node*head=NULL;
+    node*tail=NULL;
+    int k;cin>>k;
+    takeinput(k,head,tail);
+    printll(head);
+    cout<<endl;
+    deleteatfront(head,tail); printll(head);  cout<<endl;
+    deleteatend(head,tail); printll(head); cout<<endl; cout<<lengthll(head)<<endl;
+    deleteatanypos(head,tail,2); printll(head); cout<<endl; cout<<lengthll(head);
+    
+    
+    
+    
+    return 0;
+}
