@@ -1,0 +1,76 @@
+#include<iostream>
+using namespace std;
+
+class node{
+public:
+    int data;
+    node* next;
+
+    node(int d){
+        data=d;
+        next=NULL;
+    }
+};
+
+void takeinput(node* &head,node* &tail,int k){
+    while(k--){
+        int data;cin>>data;
+        node* n = new node(data);
+        if(head==NULL){
+            head=n;
+            tail=n;
+        }
+        else{
+            tail->next=n;
+            tail=n;
+        }
+    }
+}
+
+node* searchiteratively(node* head,node* tail, int key){
+    while(head!=NULL){
+        if(head->data==key)  return head;
+        head=head->next;
+    }
+    return NULL;
+}
+
+node* searchrecursively(node* head,node* tail, int key){
+    //base case
+    if(head==NULL) return NULL;
+    if(head->data==key) return head;
+
+    //recursive case
+    return searchrecursively(head->next,tail,key);
+}
+
+
+
+
+void printll(node* head){
+    while(head!=NULL){
+        cout<<head->data<<" ";
+        head=head->next;
+    }
+}
+
+
+int main()
+{
+    node*head= NULL;
+    node*tail= NULL;
+
+    int k;cin>>k;
+    takeinput(head,tail,k);
+    node* x = searchrecursively(head,tail,7);
+
+    if(x==NULL) cout<<"Key is not found"<<endl;
+    else cout<<"Key is found"<<endl;
+    
+    printll(head);
+    cout<<endl;
+
+   
+
+    return 0;
+}
