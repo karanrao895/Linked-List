@@ -1,0 +1,120 @@
+#include<iostream>
+using namespace std;
+
+class node{
+public:
+    int data;
+    node* next;
+
+    node(int d){
+        data=d;
+        next=NULL;
+    }
+};
+
+void takeinput(node* &head,node* &tail,int k){
+    while(k--){
+        int data;cin>>data;
+        node* n = new node(data);
+        if(head==NULL){
+            head=n;
+            tail=n;
+        }
+        else{
+            tail->next=n; 
+            tail=n;
+        }
+    }
+}
+
+node* mergetwosortedll(node* &a,node* &b){
+    //base case
+    if(a==NULL) return b;
+    if(b==NULL) return a;
+
+    //recursive case
+    node* newhead;
+    if(a->data < b->data){
+        newhead = a;
+        node* c1 = mergetwosortedll(a->next,b);
+        newhead->next = c1;
+    }
+    else{
+        newhead = b;
+        node* c2 = mergetwosortedll(a,b->next);
+        newhead->next = c2;
+    }
+    return newhead;
+}
+
+
+//mid pointer runner technique
+node* mid(node* head){
+    if(head==NULL){
+        return NULL;
+    }
+
+    node* fast=head->next;
+    node* slow=head;
+    while (fast!=NULL && fast->next!=NULL)
+    {
+        slow = slow->next;
+        fast = fast->next->next;
+    }
+    return slow;
+    
+}
+
+
+node* mergesort(node* head){
+    //base case
+    if(head==NULL || head->next==NULL){
+        return head;
+    }
+
+
+    //recursive case
+    //1. divide
+    node* m = mid(head);
+    node* b = head;
+    node* c = m->next;
+    m->next = NULL;
+
+    //2. sort
+    b = mergesort(b);
+    c = mergesort(c);
+
+    //3.merge
+    node* fhead= mergetwosortedll(b,c);
+    return fhead;
+
+
+}
+
+void printll(node* head){
+    while(head!=NULL){
+        cout<<head->data<<" ";
+        head=head->next;
+    }
+}
+
+
+int main()
+{
+    node*head= NULL;
+    node*tail= NULL;
+
+    int k;cin>>k;
+    takeinput(head,tail,k);
+    
+    printll(head);
+    cout<<endl;
+
+    node* p = mergesort(head);
+    printll(p);
+
+    
+    
+
+    return 0;
+}
